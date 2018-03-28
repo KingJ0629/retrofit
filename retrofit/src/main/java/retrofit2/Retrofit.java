@@ -517,8 +517,11 @@ public final class Retrofit {
       this.baseUrl = baseUrl;
       return this;
     }
-
-    /** Add converter factory for serialization and deserialization of objects. */
+  
+    /**
+     * Add converter factory for serialization and deserialization of objects.
+     * 加入自定义的格式转换器
+     */
     public Builder addConverterFactory(Converter.Factory factory) {
       converterFactories.add(checkNotNull(factory, "factory == null"));
       return this;

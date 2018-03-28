@@ -298,7 +298,11 @@ final class Utils {
     body.source().readAll(buffer);
     return ResponseBody.create(body.contentType(), body.contentLength(), buffer);
   }
-
+  
+  /**
+   * 验证API interfaces是不是interface
+   * 并且API interfaces不能继承其他interfaces
+   */
   static <T> void validateServiceInterface(Class<T> service) {
     if (!service.isInterface()) {
       throw new IllegalArgumentException("API declarations must be interfaces.");
