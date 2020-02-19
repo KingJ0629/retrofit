@@ -130,6 +130,7 @@ public final class Retrofit {
     if (validateEagerly) {
       eagerlyValidateMethods(service);
     }
+    // 返回一个 service 的代理对象
     return (T) Proxy.newProxyInstance(service.getClassLoader(), new Class<?>[] { service },
         new InvocationHandler() {
           private final Platform platform = Platform.get();
@@ -143,6 +144,8 @@ public final class Retrofit {
             if (platform.isDefaultMethod(method)) {
               return platform.invokeDefaultMethod(method, service, proxy, args);
             }
+  
+            //每一个接口最终实例化成一个 ServiceMethod，并且会缓存
             ServiceMethod<Object, Object> serviceMethod =
                 (ServiceMethod<Object, Object>) loadServiceMethod(method);
             OkHttpCall<Object> okHttpCall = new OkHttpCall<>(serviceMethod, args);
@@ -159,7 +162,10 @@ public final class Retrofit {
       }
     }
   }
-
+  
+  /**
+   * 缓存ServiceMethod
+   */
   ServiceMethod<?, ?> loadServiceMethod(Method method) {
     ServiceMethod<?, ?> result = serviceMethodCache.get(method);
     if (result != null) return result;
